@@ -7,7 +7,7 @@ endpoint = "https://documentintelligenceinterninstance.cognitiveservices.azure.c
 key = ""
 
 # sample document
-formUrl = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/sample-layout.pdf"
+formUrl = "https://testing-ecal-publisher-assets.s3.amazonaws.com/intern_ai/MV24-DL-Fixture.pdf"
 
 document_analysis_client = DocumentAnalysisClient(
     endpoint=endpoint, credential=AzureKeyCredential(key)
@@ -56,5 +56,5 @@ for table_idx, table in enumerate(result.tables):
             )
         )
 
-print("----------------------------------------")
+print("-------Completed------")
 
