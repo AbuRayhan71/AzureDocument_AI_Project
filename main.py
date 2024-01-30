@@ -1,13 +1,14 @@
 
+
 from azure.core.credentials import AzureKeyCredential
 from azure.ai.formrecognizer import DocumentAnalysisClient
+
 
 
 endpoint = "https://documentintelligenceinterninstance.cognitiveservices.azure.com/"
 key = ""
 
-# sample document
-formUrl = "https://testing-ecal-publisher-assets.s3.amazonaws.com/intern_ai/MV24-DL-Fixture.pdf"
+formUrl = "https://testing-ecal-publisher-assets.s3.amazonaws.com/intern_ai/2023-VAFA-Premier-Mens-Fixture.pdf"
 
 document_analysis_client = DocumentAnalysisClient(
     endpoint=endpoint, credential=AzureKeyCredential(key)
@@ -56,5 +57,5 @@ for table_idx, table in enumerate(result.tables):
             )
         )
 
-print("-------Completed------")
+print("----------COMPLETED-----------")
 
