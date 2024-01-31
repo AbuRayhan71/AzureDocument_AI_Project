@@ -1,61 +1,44 @@
-
-
+import json
 from azure.core.credentials import AzureKeyCredential
 from azure.ai.formrecognizer import DocumentAnalysisClient
 
 
-
 endpoint = "https://documentintelligenceinterninstance.cognitiveservices.azure.com/"
-key = ""
+key = "" 
 
 formUrl = "https://testing-ecal-publisher-assets.s3.amazonaws.com/intern_ai/2023-VAFA-Premier-Mens-Fixture.pdf"
 
-document_analysis_client = DocumentAnalysisClient(
-    endpoint=endpoint, credential=AzureKeyCredential(key)
-)
+try:
+  
+    document_analysis_client = DocumentAnalysisClient(
+            endpoint=endpoint, credential=AzureKeyCredential(key)
+        )
+
+    poller = document_analysis_client.begin_analyze_document_from_url("prebuilt-layout", formUrl)
+    result = poller.result()
+
+  
+    structured_data = {"pages": []}
+
+    for page in result.pages:
+        page_data = {"pageNumber": page.page_number, "text": [], "tables": []}
+
+     
+        for line in page.lines:
+            page_data["text"].append(line.content)
+
+        structured_data["pages"].append(page_data)
+
     
-poller = document_analysis_client.begin_analyze_document_from_url("prebuilt-layout", formUrl)
-result = poller.result()
+    for table in result.tables:
+      
+        pass
 
-for idx, style in enumerate(result.styles):
-    print(
-        "Document contains {} content".format(
-         "handwritten" if style.is_handwritten else "no handwritten"
-        )
-    )
+    
+    json_data = json.dumps(structured_data, indent=4)
+    print(json_data)
 
-for page in result.pages:
-    for line_idx, line in enumerate(page.lines):
-        print(
-         "...Line # {} has text content '{}'".format(
-        line_idx,
-        line.content.encode("utf-8")
-        )
-    )
+    print("----------COMPLETED----------")
 
-    for selection_mark in page.selection_marks:
-        print(
-         "...Selection mark is '{}' and has a confidence of {}".format(
-         selection_mark.state,
-         selection_mark.confidence
-         )
-    )
-
-for table_idx, table in enumerate(result.tables):
-    print(
-        "Table # {} has {} rows and {} columns".format(
-        table_idx, table.row_count, table.column_count
-        )
-    )
-        
-    for cell in table.cells:
-        print(
-            "...Cell[{}][{}] has content '{}'".format(
-            cell.row_index,
-            cell.column_index,
-            cell.content.encode("utf-8"),
-            )
-        )
-
-print("----------COMPLETED-----------")
-
+except Exception as e:
+    print(f"An error occurred: {e}")
