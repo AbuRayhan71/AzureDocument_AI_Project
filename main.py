@@ -38,7 +38,9 @@ try:
     json_data = json.dumps(structured_data, indent=4)
     print(json_data)
 
-    print("----------COMPLETED----------")
+    with open('extracted_data.json', 'w') as json_file:
+        json_file.write(json_data)
+        print("----------COMPLETED----------")
 
 except Exception as e:
     print(f"An error occurred: {e}")
