@@ -4,7 +4,7 @@ from azure.core.credentials import AzureKeyCredential
 from azure.ai.formrecognizer import DocumentAnalysisClient
 
 endpoint = "https://documentintelligenceinterninstance.cognitiveservices.azure.com/"
-key = ""  
+key = " "  
 
 formUrl = "https://testing-ecal-publisher-assets.s3.amazonaws.com/intern_ai/AFL_2024_fixture+The+Age.pdf"
 
